@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lottery Simulator</title>
+<style>
+body {
+    padding: 0;
+    margin: 0;
+}
+.logo {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
+.responsive {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+header {
+    background-color: #047940;
+    text-align: center;
+    padding: 10px;
+    font-size: 30px;
+    color: white;
+}
+
+.container {
+    display: flex;
+}
+
+.pick {
+    flex: 1;
+    border: 3px solid #047940;
+    text-align: center;
+    margin: 10px;
+    padding-bottom: 15px;
+}
+
+.pickLine, .sortedLine, .winningLine {
+    display: inline-flex;
+}
+
+.winner {
+    flex: 1;
+    border: 3px solid #047940;
+    text-align: center;
+    margin: 10px;
+}
+
+.matchesAndPayout {
+    border: 3px solid #047940;
+    margin: 10px;
+    text-align: center;
+    padding-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="lucky.png" alt="Lucky for Life logo" class="responsive">
+    </div>
+
+    <header><strong>Was Today Your Lucky Day?</strong></header>
+
+    <div class="container">
+        <div class="pick">
+            <h1>Your Numbers</h1>
+            <p>Your pick before sorting was:</p>
+            <div class="pickLine">
+                <div id="pick1"></div>
+                <div id="pick2"></div>
+                <div id="pick3"></div>
+                <div id="pick4"></div>
+                <div id="pick5"></div>
+            </div>
+            <p>Your pick after sorting is:</p>
+            <div class="sortedLine">
+                <div id="sorted1"></div>
+                <div id="sorted2"></div>
+                <div id="sorted3"></div>
+                <div id="sorted4"></div>
+                <div id="sorted5"></div>
+            </div>
+            <p>Your lucky ball is: </p>
+            <div id="luckyBall"></div>
+        </div>
+
+        <div class="winner">
+            <h1>Winning Numbers</h1>
+            <p>The winning numbers are:</p>
+            <div class="winningLine">
+                <div id="winning1"></div>
+                <div id="winning2"></div>
+                <div id="winning3"></div>
+                <div id="winning4"></div>
+                <div id="winning5"></div>
+            </div>
+            <p>The winning lucky ball is:</p>
+            <div id="winningBall"></div>
+        </div>
+    </div>
+
+    <div class="matchesAndPayout">
+        <h1>Results</h1>
+        <p>Numbers matching:</p>
+        <div id="count"></div><br>
+        <div id="luckyMatch"></div>
+        <p><strong>Payout:</strong></p>
+        <div id="winnings"></div>
+    </div>
+
+    <script language="javascript">
+        // Initialize variables
+        winners = [12,15,24,35,48,3];
+        numbers = new Array(5);
+        luckyBall= Math.trunc(Math.random() * 18 + 1);
+        count = 0;
+        winnings = 0;
+    
+        // Randomly generate their pick
+        for (n = 0;n < 5; n++) {
+            numbers[n] = Math.trunc(Math.random() * 48 + 1);
+        }
+    
+        // Print their unsorted pick
+        document.getElementById("pick1").innerHTML = numbers[0] + ",&nbsp";
+        document.getElementById("pick2").innerHTML = numbers[1] + ",&nbsp";
+        document.getElementById("pick3").innerHTML = numbers[2] + ",&nbsp";
+        document.getElementById("pick4").innerHTML = numbers[3] + ",&nbsp";
+        document.getElementById("pick5").innerHTML = numbers[4];
+    
+        numbers = numbers.sort();
+
+        // Print their sorted pick
+        document.getElementById("sorted1").innerHTML = numbers[0] + ",&nbsp";
+        document.getElementById("sorted2").innerHTML = numbers[1] + ",&nbsp";
+        document.getElementById("sorted3").innerHTML = numbers[2] + ",&nbsp";
+        document.getElementById("sorted4").innerHTML = numbers[3] + ",&nbsp";
+        document.getElementById("sorted5").innerHTML = numbers[4];
+
+        // Print their lucky ball
+        document.getElementById("luckyBall").innerHTML = luckyBall;
+    
+        // Print the winning numbers
+        document.getElementById("winning1").innerHTML = winners[0] + ",&nbsp";
+        document.getElementById("winning2").innerHTML = winners[1] + ",&nbsp";
+        document.getElementById("winning3").innerHTML = winners[2] + ",&nbsp";
+        document.getElementById("winning4").innerHTML = winners[3] + ",&nbsp";
+        document.getElementById("winning5").innerHTML = winners[4];
+
+        // Print the winning lucky ball
+        document.getElementById("winningBall").innerHTML = winners[5];
+    
+        // Check for and keep track of matches
+        for (n = 0; n < 5; n++) {
+            if (numbers[n] == winners[n]) {
+                count++;
+            }
+        }
+    
+        // Print their number of matches and the if their lucky ball matched
+        document.getElementById("count").innerHTML = count + "\n";
+        document.getElementById("luckyMatch").innerHTML = (luckyBall == winners[5] ? "Your lucky ball matched!":"Your lucky ball did not match.");
+
+        // Determine and print which prize they won
+        if (count == 0 && luckyBall == winners[5]) {
+            winnings = 4;
+        } else if (count == 1 && luckyBall == winners[5]) {
+            winnings = 6;
+        } else if (count == 2 && luckyBall == winners[5]) {
+            winnings = 25;
+        } else if (count == 3 && luckyBall == winners[5]) {
+            winnings = 150;
+        } else if (count == 4 && luckyBall == winners[5]) {
+            winnings = 5000;
+        } else if (count == 5 && luckyBall == winners[5]) {
+            winnings = 7000;
+        } else if (count == 2) {
+            winnings = 3;
+        } else if (count == 3) {
+            winnings = 20;
+        } else if (count == 4) {
+            winnings = 200;
+        } else if (count == 5) {
+            winnings = 25000;
+        }
+
+        // Print special message if they won a top prize
+        if (winnings == 25000) {
+            document.getElementById("winnings").innerHTML = "$" + winnings + "&nbspa YEAR for LIFE";
+        } else if (winnings == 7000) {
+            document.getElementById("winnings").innerHTML = "$" + winnings + "&nbspa WEEK for LIFE";
+        } else
+            document.getElementById("winnings").innerHTML = "$" + winnings;
+
+    </script>
+
+</body>
