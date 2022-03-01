@@ -160,8 +160,10 @@ header {
     
         // Check for and keep track of matches
         for (n = 0; n < 5; n++) {
-            if (numbers[n] == winners[n]) {
-                count++;
+            for (i = 0; i < 5; i++) {
+                if (numbers[n] == winners[i]) {
+                    count++;
+                }
             }
         }
     
