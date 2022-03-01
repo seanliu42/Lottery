@@ -133,7 +133,9 @@ header {
         document.getElementById("pick4").innerHTML = numbers[3] + ",&nbsp";
         document.getElementById("pick5").innerHTML = numbers[4];
     
-        numbers = numbers.sort();
+        numbers = numbers.sort(function(a, b) {
+            return a - b;
+        });
 
         // Print their sorted pick
         document.getElementById("sorted1").innerHTML = numbers[0] + ",&nbsp";
